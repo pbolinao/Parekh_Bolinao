@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Parekh_Bolinao</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_recent">Recent</string>
+    <string name="title_summaries">Summaries</string>
     <string name="user_id">Name: </string>
     <string name="date"> </string>
     <string name="systolic_label">Systolic Reading</string>
