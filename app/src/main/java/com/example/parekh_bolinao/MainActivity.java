@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("---------------", "-----------------");
 
         Task setValueTask = mDatabase.child("users").child("34eqwsda").setValue(user);
+        mDatabase.child("Hello").child("android").setValue("World");
 
         setValueTask.addOnSuccessListener(new OnSuccessListener() {
             @Override
