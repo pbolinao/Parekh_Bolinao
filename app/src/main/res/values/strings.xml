@@ -8,4 +8,7 @@
     <string name="systolic_label">Systolic Reading</string>
     <string name="diastolic_label">Diastolic Reading</string>
     <string name="check_button">Check</string>
+
+    <string name="name_hint">Name</string>
+    <string name="reading_hint">mm Hg</string>
 </resources>
