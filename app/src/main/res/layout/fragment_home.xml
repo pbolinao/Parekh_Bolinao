@@ -28,32 +28,7 @@
         android:layout_row="0"
         android:layout_column="1"
         android:inputType="textPersonName"
-        android:text="Name" />
-
-    <TextView
-        android:id="@+id/date_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="12dp"
-        android:layout_row="1"
-        android:layout_column="0"
-        android:text="AAAAAA"
-        android:textSize="16sp"
-        android:textColor="#000000"/>
-
-    <TextView
-        android:id="@+id/date_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="12dp"
-        android:layout_row="1"
-        android:layout_column="1"
-        android:text="TextView"
-        android:textColor="#000000"
-        android:textStyle="italic"
-        android:textSize="16sp" />
+        android:hint="@string/name_hint" />
 
     <TextView
         android:id="@+id/systolic_label"
@@ -63,7 +38,7 @@
         android:layout_marginEnd="12dp"
         android:text="@string/systolic_label"
         android:layout_column="0"
-        android:layout_row="2"
+        android:layout_row="1"
         android:textSize="16sp"
         android:textColor="#000000"/>
 
@@ -73,10 +48,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="12dp"
-        android:layout_row="2"
+        android:layout_row="1"
         android:layout_column="1"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:inputType="number"
+        android:hint="@string/reading_hint" />
 
     <TextView
         android:id="@+id/diastolic_label"
@@ -84,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="12dp"
-        android:layout_row="3"
+        android:layout_row="2"
         android:layout_column="0"
         android:text="@string/diastolic_label"
         android:textColor="#000000"
@@ -97,9 +72,9 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="12dp"
         android:layout_column="1"
-        android:layout_row="3"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:layout_row="2"
+        android:inputType="number"
+        android:hint="@string/reading_hint" />
 
     <Button
         android:id="@+id/button"
@@ -107,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="12dp"
-        android:layout_row="4"
+        android:layout_row="3"
         android:layout_column="1"
         android:text="@string/check_button" />
 
