@@ -28,7 +28,7 @@
         android:layout_row="0"
         android:layout_column="1"
         android:inputType="textPersonName"
-        android:text="Name" />
+        android:hint="@string/name_hint" />
 
     <TextView
         android:id="@+id/systolic_label"
@@ -50,8 +50,8 @@
         android:layout_marginEnd="12dp"
         android:layout_row="1"
         android:layout_column="1"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:inputType="number"
+        android:hint="@string/reading_hint" />
 
     <TextView
         android:id="@+id/diastolic_label"
@@ -73,8 +73,8 @@
         android:layout_marginEnd="12dp"
         android:layout_column="1"
         android:layout_row="2"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:inputType="number"
+        android:hint="@string/reading_hint" />
 
     <Button
         android:id="@+id/button"
