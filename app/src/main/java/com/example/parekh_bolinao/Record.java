@@ -31,4 +31,8 @@ public class Record {
         this.time = hour + ":" + min + ":" + sec;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
 }
