@@ -3,13 +3,15 @@ package com.example.parekh_bolinao;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -39,35 +41,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
+        // Get a reference of the database
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-//        User user = new User("afas", "sfsafd@fds.asf");
-
-        Log.d("---------------", "-----------------");
-
-//        Task setValueTask = mDatabase.child("users").child("34eqwsda").setValue(user);
-//        mDatabase.child("Hello").child("android").setValue("World");
-
-//        setValueTask.addOnSuccessListener(new OnSuccessListener() {
-//            @Override
-//            public void onSuccess(Object o) {
-//                Toast.makeText(MainActivity.this,"Student added.",Toast.LENGTH_LONG).show();
-//                Log.d("---------------", "s-----------------");
-//            }
-//        });
-//
-//        setValueTask.addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(MainActivity.this,
-//                        "something went wrong.\n" + e.toString(),
-//                        Toast.LENGTH_SHORT).show();
-//                Log.d("---------------", "f-----------------");
-//            }
-//        });
-//
-//        Log.d("---------------", "End-----------------");
-
     }
 
     /**
@@ -93,35 +68,58 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onCheckClick(View v) {
-        // Store in database, display condition
-        EditText nameEdit = findViewById(R.id.name_edit);
-        EditText systEdit = findViewById(R.id.systolic_edit);
-        EditText diasEdit = findViewById(R.id.diastolic_edit);
+    protected void onStart() {
+        super.onStart();
+        View btn = findViewById(R.id.btn_check);
 
-        String user_name = nameEdit.getText().toString();
-        int systolicRead = Integer.valueOf(systEdit.getText().toString());
-        int diastolicRead = Integer.valueOf(diasEdit.getText().toString());
+        btn.setOnClickListener((v) -> {
+            // Store in database, display condition
+            EditText nameEdit = findViewById(R.id.name_edit);
+            EditText systEdit = findViewById(R.id.systolic_edit);
+            EditText diasEdit = findViewById(R.id.diastolic_edit);
 
-        Record record = new Record(user_name, systolicRead, diastolicRead);
-        String id = mDatabase.push().getKey();
-        mDatabase.child("Records").child(id).setValue(record);
+            int systolicRead, diastolicRead;
 
-        int health_status = checkHealth(systolicRead, diastolicRead);
-        if (health_status == 5) {
-            String alert_message = "WARNING! Hypertensive Crisis. Consult your doctor IMMEDIATELY.";
-            builder.setMessage(alert_message);
-            builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                }
+            String user_name = nameEdit.getText().toString();
+            try {
+                systolicRead = Integer.valueOf(systEdit.getText().toString());
+                diastolicRead = Integer.valueOf(diasEdit.getText().toString());
+            }
+            catch (NumberFormatException e) {
+                Toast.makeText(MainActivity.this,"Blood pressures can only be numbers", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            Record record = new Record(user_name, systolicRead, diastolicRead);
+            // Get an ID for the entry from firebase
+            String id = mDatabase.push().getKey();
+            assert id != null;
+            Task insert = mDatabase.child("Records").child(id).setValue(record);
+
+            insert.addOnSuccessListener((o) -> {
+                Toast.makeText(MainActivity.this,"Record added.",Toast.LENGTH_LONG).show();
+                nameEdit.setText("");
+                systEdit.setText("");
+                diasEdit.setText("");
             });
-            alert = builder.create();
-            alert.show();
-        } else {
-            // SHOW SOMETHING TO SAY THE DATA IS SUBMITTED
-        }
 
+            insert.addOnFailureListener((o) -> Toast.makeText(MainActivity.this,
+                    "Something went wrong! Please check your connection and try again later.",
+                    Toast.LENGTH_LONG).show());
+
+
+            int health_status = checkHealth(systolicRead, diastolicRead);
+            if (health_status == 5) {
+                String alert_message = "WARNING! Hypertensive Crisis. Consult your doctor IMMEDIATELY.";
+                builder.setMessage(alert_message);
+                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+                alert = builder.create();
+                alert.show();
+            }
+        });
     }
-
 }
