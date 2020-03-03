@@ -35,6 +35,7 @@ public class RecentFragment extends Fragment {
             protected void populateView(View view, Record rec, int position) {
                 //Set the value for the views
                 ((TextView)view.findViewById(R.id.user_name)).setText(rec.getName());
+                ((TextView)view.findViewById(R.id.entry_datetime)).setText(rec.getName());
                 //...
             }
         };
