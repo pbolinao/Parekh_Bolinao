@@ -34,5 +34,20 @@ public class Record {
     public String getName() {
         return this.name;
     }
+    public int getSystolic_reading() {
+        return this.systolic_reading;
+    }
+    public int getDiastolic_reading() {
+        return this.diastolic_reading;
+    }
+    public int getYear() {
+        return this.year;
+    }
+    public int getMonth() {
+        return this.month;
+    }
+    public String getTime() {
+        return this.time;
+    }
 
 }
