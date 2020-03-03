@@ -6,16 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -76,17 +70,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public String checkHealth(int syst, int dias) {
+    /**
+     * Checks the users health based on their systolic and
+     * diastolic readings.
+     * @param syst int
+     * @param dias int
+     * @return an integer from 1-5 representing normal,
+     *          elevated, high blood pressure (stage 1 and 2),
+     *          and hypertensive crisis respectively
+     */
+    public int checkHealth(int syst, int dias) {
         if (syst < 120 && dias < 80) {
-            return "normal";
+            return 1; // Normal
         } else if (syst <= 129 && syst >= 120 && dias < 80) {
-            return "elevated";
+            return 2; // Elevated
         } else if ((syst <= 139 && syst >= 130) || (dias >= 80 && dias <= 89)) {
-            return "hbp1";
+            return 3; // High Blood Pressure (Stage 1)
         } else if ((syst <= 179 && syst >= 140) || (dias >= 90 && dias <= 120)) {
-            return "hbp2";
+            return 4; // High Blood Pressure (Stage 2)
         } else {
-            return "Hypertensive Crisis";
+            return 5; // Hypertensive Crisis
         }
     }
 
@@ -104,15 +107,21 @@ public class MainActivity extends AppCompatActivity {
         String id = mDatabase.push().getKey();
         mDatabase.child("Records").child(id).setValue(record);
 
-        String alert_message = checkHealth(systolicRead, diastolicRead);
-        builder.setMessage(alert_message);
-        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        alert = builder.create();
-        alert.show();
+        int health_status = checkHealth(systolicRead, diastolicRead);
+        if (health_status == 5) {
+            String alert_message = "WARNING! Hypertensive Crisis. Consult your doctor IMMEDIATELY.";
+            builder.setMessage(alert_message);
+            builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+            alert = builder.create();
+            alert.show();
+        } else {
+            // SHOW SOMETHING TO SAY THE DATA IS SUBMITTED
+        }
+
     }
 
 }
