@@ -54,18 +54,8 @@ public class MainActivity extends AppCompatActivity {
      *          elevated, high blood pressure (stage 1 and 2),
      *          and hypertensive crisis respectively
      */
-    public int checkHealth(int syst, int dias) {
-        if (syst < 120 && dias < 80) {
-            return 1; // Normal
-        } else if (syst <= 129 && syst >= 120 && dias < 80) {
-            return 2; // Elevated
-        } else if ((syst <= 139 && syst >= 130) || (dias >= 80 && dias <= 89)) {
-            return 3; // High Blood Pressure (Stage 1)
-        } else if ((syst <= 179 && syst >= 140) || (dias >= 90 && dias <= 120)) {
-            return 4; // High Blood Pressure (Stage 2)
-        } else {
-            return 5; // Hypertensive Crisis
-        }
+    public boolean checkHealth(int syst, int dias) {
+        return  (syst >= 180 || dias <= 120);
     }
 
     protected void onStart() {
@@ -78,17 +68,9 @@ public class MainActivity extends AppCompatActivity {
             EditText systEdit = findViewById(R.id.systolic_edit);
             EditText diasEdit = findViewById(R.id.diastolic_edit);
 
-            int systolicRead, diastolicRead;
-
             String user_name = nameEdit.getText().toString();
-            try {
-                systolicRead = Integer.valueOf(systEdit.getText().toString());
-                diastolicRead = Integer.valueOf(diasEdit.getText().toString());
-            }
-            catch (NumberFormatException e) {
-                Toast.makeText(MainActivity.this,"Blood pressures can only be numbers", Toast.LENGTH_LONG).show();
-                return;
-            }
+            int systolicRead = Integer.valueOf(systEdit.getText().toString());
+            int diastolicRead = Integer.valueOf(diasEdit.getText().toString());
 
             Record record = new Record(user_name, systolicRead, diastolicRead);
             // Get an ID for the entry from firebase
@@ -107,16 +89,10 @@ public class MainActivity extends AppCompatActivity {
                     "Something went wrong! Please check your connection and try again later.",
                     Toast.LENGTH_LONG).show());
 
-
-            int health_status = checkHealth(systolicRead, diastolicRead);
-            if (health_status == 5) {
+            if (checkHealth(systolicRead, diastolicRead)) {
                 String alert_message = "WARNING! Hypertensive Crisis. Consult your doctor IMMEDIATELY.";
                 builder.setMessage(alert_message);
-                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                builder.setNegativeButton("Close", (dialog, id1) -> dialog.cancel());
                 alert = builder.create();
                 alert.show();
             }
