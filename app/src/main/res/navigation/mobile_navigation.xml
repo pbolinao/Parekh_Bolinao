@@ -12,8 +12,8 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.parekh_bolinao.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_recent"
+        android:name="com.example.parekh_bolinao.ui.recent.RecentFragment"
         android:label="@string/title_recent"
         tools:layout="@layout/fragment_recent" />
 
