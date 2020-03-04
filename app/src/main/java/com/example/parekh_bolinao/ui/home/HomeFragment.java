@@ -3,6 +3,7 @@ package com.example.parekh_bolinao.ui.home;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,11 @@ import com.example.parekh_bolinao.MainActivity;
 import com.example.parekh_bolinao.R;
 import com.example.parekh_bolinao.Record;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class HomeFragment extends Fragment {
 
@@ -52,6 +57,7 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         View btn = root.findViewById(R.id.btn_check);
+        DatabaseReference mDatabase = ((MainActivity)getActivity()).getmDatabase();
 
         btn.setOnClickListener((v) -> {
             // Store in database, display condition
@@ -64,12 +70,10 @@ public class HomeFragment extends Fragment {
             int diastolicRead = Integer.valueOf(diasEdit.getText().toString());
 
             Record record = new Record(user_name, systolicRead, diastolicRead);
-
-            DatabaseReference mDatabase = ((MainActivity)getActivity()).getmDatabase();
             // Get an ID for the entry from firebase
             String id = mDatabase.push().getKey();
             assert id != null;
-            Task insert = mDatabase.child("Records").child(id).setValue(record);
+            Task insert = mDatabase.child(user_name.toLowerCase()).child(id).setValue(record);
 
             insert.addOnSuccessListener((o) -> {
                 Toast.makeText(getActivity(),"Record added.",Toast.LENGTH_LONG).show();

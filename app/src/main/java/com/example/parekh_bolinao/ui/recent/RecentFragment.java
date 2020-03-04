@@ -16,31 +16,20 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.parekh_bolinao.MainActivity;
 import com.example.parekh_bolinao.R;
 import com.example.parekh_bolinao.Record;
-import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DatabaseReference;
 
 public class RecentFragment extends Fragment {
 
     private RecentViewModel recentViewModel;
     private Activity main;
+    private View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         recentViewModel =
                 ViewModelProviders.of(this).get(RecentViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_recent, container, false);
+        root = inflater.inflate(R.layout.fragment_recent, container, false);
         DatabaseReference mDatabase = ((MainActivity)getActivity()).getmDatabase();
-        ArrayAdapter<Record> recordArrayAdapter = new FirebaseListAdapter<Record>(this, R.layout.recent_entry_row_layout,mDatabase){
-            @Override
-            protected void populateView(View view, Record rec, int position) {
-                //Set the value for the views
-                ((TextView)view.findViewById(R.id.user_name)).setText(rec.getName());
-                //...
-            }
-        };
-        };
-        ListView lv = root.findViewById(R.id.recent_entries_list);
-        lv.setAdapter(recordArrayAdapter);
         return root;
     }
 }

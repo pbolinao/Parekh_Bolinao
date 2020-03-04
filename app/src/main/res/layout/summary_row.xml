@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/name_label"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/name_label"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/syst_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Systolic Reading"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="91dp" />
+
+    <TextView
+        android:id="@+id/cond_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Average Condition"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="247dp" />
+
+    <TextView
+        android:id="@+id/cond_val"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="183dp"
+        tools:layout_editor_absoluteY="250dp" />
+
+    <TextView
+        android:id="@+id/dia_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Diastolic Reading"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="170dp" />
+
+    <TextView
+        android:id="@+id/dia_val"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="185dp"
+        tools:layout_editor_absoluteY="173dp" />
+
+    <TextView
+        android:id="@+id/name_val"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="184dp"
+        tools:layout_editor_absoluteY="22dp" />
+
+    <TextView
+        android:id="@+id/sys_val"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="182dp"
+        tools:layout_editor_absoluteY="91dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

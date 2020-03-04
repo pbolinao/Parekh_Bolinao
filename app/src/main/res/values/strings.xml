@@ -11,4 +11,5 @@
 
     <string name="name_hint">Name</string>
     <string name="reading_hint">mm Hg</string>
+    <string name="name_label">Name</string>
 </resources>
