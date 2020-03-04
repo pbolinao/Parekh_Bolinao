@@ -20,6 +20,7 @@ import com.example.parekh_bolinao.MainActivity;
 import com.example.parekh_bolinao.R;
 import com.example.parekh_bolinao.Record;
 import com.example.parekh_bolinao.Summary;
+import com.example.parekh_bolinao.SummaryAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,8 +62,8 @@ public class NotificationsFragment extends Fragment {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<Summary> summaries = new ArrayList<>(0);
                 if (dataSnapshot.exists()) {
-                    ArrayList<Summary> summaries = new ArrayList<>(0);
                     for(DataSnapshot ds : dataSnapshot.getChildren()) {
                         String name = ds.getKey().toString();
                         double sys = 0, dia = 0;
@@ -74,6 +75,9 @@ public class NotificationsFragment extends Fragment {
                         summaries.add(new Summary(name, sys, dia));
                         Log.d(TAG, "For "+name+ "dia="+dia+"sys="+sys);
                     }
+
+                    SummaryAdapter adapter = new SummaryAdapter(getActivity(), summaries);
+                    lv.setAdapter(adapter);
 
 //                    Set<Integer> set = new HashSet<>(months);
 //                    ArrayList<String> listEntries = new ArrayList<>(0);

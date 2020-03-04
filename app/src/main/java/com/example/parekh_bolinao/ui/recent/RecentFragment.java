@@ -34,6 +34,7 @@ public class RecentFragment extends Fragment {
     ListView lv;
     List<Record> recordList;
     DatabaseReference mDatabase;
+    ValueEventListener dataChangeListener;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class RecentFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        dataChangeListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 recordList.clear();
@@ -59,12 +60,19 @@ public class RecentFragment extends Fragment {
                         Log.d("User", record.getName());
                     }
                 }
+                RecordAdapter adapter = new RecordAdapter(getActivity(), recordList);
+                lv.setAdapter(adapter);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
-        RecordAdapter adapter = new RecordAdapter(getActivity(), recordList);
-        lv.setAdapter(adapter);
+        };
+        mDatabase.addValueEventListener(dataChangeListener);
     }
+
+    public void onStop() {
+        super.onStop();
+        mDatabase.removeEventListener(dataChangeListener);
+    }
+
 }

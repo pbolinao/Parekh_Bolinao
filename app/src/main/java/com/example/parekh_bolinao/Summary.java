@@ -13,4 +13,20 @@ public class Summary {
 
         this.avgCond = "Fine OK";
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getSyst() {
+        return syst;
+    }
+
+    public double getDia() {
+        return dia;
+    }
+
+    public String getAvgCond() {
+        return avgCond;
+    }
 }

@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.parekh_bolinao.MainActivity;
 import com.example.parekh_bolinao.R;
 import com.example.parekh_bolinao.Record;
+import com.example.parekh_bolinao.RecordAdapter;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -94,5 +95,6 @@ public class HomeFragment extends Fragment {
                 alert.show();
             }
         });
+
     }
 }
