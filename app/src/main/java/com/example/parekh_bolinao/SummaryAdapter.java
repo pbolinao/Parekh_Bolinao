@@ -1,5 +1,6 @@
 package com.example.parekh_bolinao;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ public class SummaryAdapter extends ArrayAdapter<Summary> {
         _context = context;
     }
 
+    @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final Activity activity = (Activity) _context;

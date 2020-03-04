@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import static android.content.ContentValues.TAG;
@@ -76,17 +77,8 @@ public class NotificationsFragment extends Fragment {
                         Log.d(TAG, "For "+name+ "dia="+dia+"sys="+sys);
                     }
 
-                    SummaryAdapter adapter = new SummaryAdapter(getActivity(), summaries);
+                    SummaryAdapter adapter = new SummaryAdapter(Objects.requireNonNull(getActivity()), summaries);
                     lv.setAdapter(adapter);
-
-//                    Set<Integer> set = new HashSet<>(months);
-//                    ArrayList<String> listEntries = new ArrayList<>(0);
-//                    for(int i:set) {
-//                        getDataForMonth(i);
-//                        listEntries.add("Month to date readings of " + getMonth(i) + " 2020");
-//                    }
-//                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.simple_entry, listEntries);
-//                    lv.setAdapter(arrayAdapter);
                 }
                 else {
                     Log.d(TAG, "Dick");
