@@ -2,6 +2,8 @@ package com.example.parekh_bolinao.ui.recent;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +42,7 @@ public class RecentFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_recent, container, false);
         lv = root.findViewById(R.id.recent_entries_list);
         recordList = new ArrayList<>();
+        mDatabase = ((MainActivity)getActivity()).getmDatabase();
         return root;
     }
 
@@ -49,9 +52,12 @@ public class RecentFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 recordList.clear();
-                for(DataSnapshot recordSnapshot : dataSnapshot.getChildren()) {
-                    Record record = recordSnapshot.getValue(Record.class);
-                    recordList.add(record);
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    for(DataSnapshot recordSnapshot : ds.getChildren()) {
+                        Record record = recordSnapshot.getValue(Record.class);
+                        recordList.add(record);
+                        Log.d("User", record.getName());
+                    }
                 }
             }
 

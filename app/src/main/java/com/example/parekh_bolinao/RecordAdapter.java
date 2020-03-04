@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.example.parekh_bolinao.ui.recent.RecentFragment;
+
 import java.util.List;
 
 public class RecordAdapter extends ArrayAdapter<Record> {
