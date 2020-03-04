@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/summary_row"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,9 +12,11 @@
         android:layout_width="0dp"
         android:layout_height="24dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="136dp"
         android:text="@string/name_label"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/name_val"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,8 +27,8 @@
         android:text="Systolic Reading"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="91dp" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/sys_val"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/cond_label"
@@ -34,17 +37,19 @@
         android:text="Average Condition"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="247dp" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/cond_val"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/cond_val"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="53dp"
         android:text="TextView"
         android:textSize="18sp"
-        tools:layout_editor_absoluteX="183dp"
-        tools:layout_editor_absoluteY="250dp" />
+        app:layout_constraintStart_toEndOf="@+id/cond_label"
+        app:layout_constraintTop_toBottomOf="@+id/dia_val" />
 
     <TextView
         android:id="@+id/dia_label"
@@ -53,34 +58,41 @@
         android:text="Diastolic Reading"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="170dp" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/dia_val"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/dia_val"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="58dp"
         android:text="TextView"
         android:textSize="18sp"
-        tools:layout_editor_absoluteX="185dp"
-        tools:layout_editor_absoluteY="173dp" />
+        app:layout_constraintStart_toEndOf="@+id/dia_label"
+        app:layout_constraintTop_toBottomOf="@+id/sys_val" />
 
     <TextView
         android:id="@+id/name_val"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="153dp"
         android:text="TextView"
         android:textSize="18sp"
-        tools:layout_editor_absoluteX="184dp"
-        tools:layout_editor_absoluteY="22dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/name_label"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/sys_val"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="2dp"
         android:text="TextView"
         android:textSize="18sp"
-        tools:layout_editor_absoluteX="182dp"
-        tools:layout_editor_absoluteY="91dp" />
+        app:layout_constraintEnd_toEndOf="@+id/name_val"
+        app:layout_constraintTop_toBottomOf="@+id/name_val" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

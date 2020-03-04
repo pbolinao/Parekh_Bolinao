@@ -16,8 +16,8 @@ import java.util.ArrayList;
 public class SummaryAdapter extends ArrayAdapter<Summary> {
     Context _context;
 
-    public SummaryAdapter(@NonNull Context context, int resource) {
-        super(context, resource);
+    public SummaryAdapter(@NonNull Context context, ArrayList<Summary> summaries) {
+        super(context, 0, summaries);
         _context = context;
     }
 
@@ -26,7 +26,7 @@ public class SummaryAdapter extends ArrayAdapter<Summary> {
         final Activity activity = (Activity) _context;
 
         // Get the data item for this position
-        Summary article = getItem(position);
+        Summary row = getItem(position);
 
 //         Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
@@ -34,15 +34,20 @@ public class SummaryAdapter extends ArrayAdapter<Summary> {
         }
 
         // Lookup view for data population
-        TextView field1 = convertView.findViewById(R.id.f1);
+        TextView field1 = convertView.findViewById(R.id.name_val);
+        field1.setText(row.getName());
 
-        // Populate the data into the template view using the data object
-        field1.setText(String.format("%s", article.getTitle()));
+        // Lookup view for data population
+        TextView field2 = convertView.findViewById(R.id.sys_val);
+        field2.setText(String.format("%f", row.getSyst()));
 
-        ImageView imgOnePhoto = convertView.findViewById(R.id.thumbImage);
-        if (article.getUrlToImage() != null) {
-            new ImageDownloaderTask(imgOnePhoto).execute(article.getUrlToImage());  // execute() for async tasks
-        }
+        // Lookup view for data population
+        TextView field3 = convertView.findViewById(R.id.dia_val);
+        field3.setText("" + row.getDia());
+
+        // Lookup view for data population
+        TextView field4 = convertView.findViewById(R.id.cond_val);
+        field4.setText(String.format("%s", row.getAvgCond()));
 
         // Return the completed view to render on screen
         return convertView;
