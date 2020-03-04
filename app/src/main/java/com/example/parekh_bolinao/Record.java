@@ -31,9 +31,7 @@ public class Record {
         this.time = hour + ":" + min + ":" + sec;
     }
 
-    public String getName() {
-        return this.name;
-    }
+    public String getName() { return this.name; }
     public int getSystolic_reading() {
         return this.systolic_reading;
     }

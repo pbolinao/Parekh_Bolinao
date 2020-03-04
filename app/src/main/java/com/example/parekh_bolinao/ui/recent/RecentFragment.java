@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,32 +14,51 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.parekh_bolinao.MainActivity;
 import com.example.parekh_bolinao.R;
 import com.example.parekh_bolinao.Record;
-import com.firebase.ui.database.FirebaseListAdapter;
+import com.example.parekh_bolinao.RecordAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecentFragment extends Fragment {
 
     private RecentViewModel recentViewModel;
     private Activity main;
+    private View root;
+    ListView lv;
+    List<Record> recordList;
+    DatabaseReference mDatabase;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         recentViewModel =
                 ViewModelProviders.of(this).get(RecentViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_recent, container, false);
-        DatabaseReference mDatabase = ((MainActivity)getActivity()).getmDatabase();
-        ArrayAdapter<Record> recordArrayAdapter = new FirebaseListAdapter<Record>(this, R.layout.recent_entry_row_layout,mDatabase){
-            @Override
-            protected void populateView(View view, Record rec, int position) {
-                //Set the value for the views
-                ((TextView)view.findViewById(R.id.user_name)).setText(rec.getName());
-                ((TextView)view.findViewById(R.id.entry_datetime)).setText(rec.getName());
-                //...
-            }
-        };
-        };
-        ListView lv = root.findViewById(R.id.recent_entries_list);
-        lv.setAdapter(recordArrayAdapter);
+        root = inflater.inflate(R.layout.fragment_recent, container, false);
+        lv = root.findViewById(R.id.recent_entries_list);
+        recordList = new ArrayList<>();
         return root;
+    }
+
+    public void onStart() {
+        super.onStart();
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                recordList.clear();
+                for(DataSnapshot recordSnapshot : dataSnapshot.getChildren()) {
+                    Record record = recordSnapshot.getValue(Record.class);
+                    recordList.add(record);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+        RecordAdapter adapter = new RecordAdapter(getActivity(), recordList);
+        lv.setAdapter(adapter);
     }
 }

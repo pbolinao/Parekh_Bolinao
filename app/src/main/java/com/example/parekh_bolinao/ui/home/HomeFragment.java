@@ -31,7 +31,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-
         root = inflater.inflate(R.layout.fragment_home, container, false);
         return root;
     }
@@ -46,7 +45,7 @@ public class HomeFragment extends Fragment {
      *          and hypertensive crisis respectively
      */
     public boolean checkHealth(int syst, int dias) {
-        return  (syst >= 180 || dias <= 120);
+        return  (syst >= 180 || dias >= 120);
     }
 
     public void onStart() {
