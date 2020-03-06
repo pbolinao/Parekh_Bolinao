@@ -53,8 +53,6 @@ public class NotificationsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        Log.d("==========", "Fuck and shit");
-
         mDatabase = ((MainActivity)getActivity()).getmDatabase();
 
         ListView lv = root.findViewById(R.id.summary_list);
@@ -65,31 +63,23 @@ public class NotificationsFragment extends Fragment {
                 ArrayList<Summary> summaries = new ArrayList<>(0);
                 if (dataSnapshot.exists()) {
                     for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                        String name = ds.getKey().toString();
+                        String name = ds.getKey();
+                        name = name.substring(0, name.indexOf('-'));
                         double sys = 0, dia = 0;
+                        double count = ds.getChildrenCount();
                         for(DataSnapshot rec : ds.getChildren()) {
                             Record r = rec.getValue(Record.class);
                             sys += r.systolic_reading;
                             dia += r.diastolic_reading;
                         }
-                        summaries.add(new Summary(name, sys, dia));
-                        Log.d(TAG, "For "+name+ "dia="+dia+"sys="+sys);
+                        summaries.add(new Summary(name, sys/count, dia/count));
                     }
 
                     SummaryAdapter adapter = new SummaryAdapter(getActivity(), summaries);
                     lv.setAdapter(adapter);
-
-//                    Set<Integer> set = new HashSet<>(months);
-//                    ArrayList<String> listEntries = new ArrayList<>(0);
-//                    for(int i:set) {
-//                        getDataForMonth(i);
-//                        listEntries.add("Month to date readings of " + getMonth(i) + " 2020");
-//                    }
-//                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.simple_entry, listEntries);
-//                    lv.setAdapter(arrayAdapter);
                 }
                 else {
-                    Log.d(TAG, "Dick");
+                    Log.d(TAG, "Firebase Error: Cannot find snapshot of db.");
                 }
             }
 
@@ -99,38 +89,6 @@ public class NotificationsFragment extends Fragment {
             }
         };
         mDatabase.addValueEventListener(dataChangeListener);
-    }
-
-    private String getMonth(int mon) {
-        String s = "";
-        switch (mon) {
-            case 1:
-                s = "January";
-            case 2:
-                s = "February";
-            case 3:
-                s = "March";
-            case 4:
-                s = "April";
-            case 5:
-                s = "May";
-            case 6:
-                s = "June";
-            case 7:
-                s = "July";
-            case 8:
-                s = "August";
-            case 9:
-                s = "September";
-            case 10:
-                s = "October";
-            case 11:
-                s = "November";
-            case 12:
-                s = "December";
-
-        }
-        return s;
     }
 
     private void getDataForMonth(int mon) {

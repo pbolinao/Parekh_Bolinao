@@ -11,7 +11,7 @@ public class Summary {
         this.syst = syst;
         this.dia = dia;
 
-        this.avgCond = "Fine OK";
+        this.avgCond = calculateCondition(syst, dia);
     }
 
     public String getName() {
@@ -28,5 +28,18 @@ public class Summary {
 
     public String getAvgCond() {
         return avgCond;
+    }
+
+    private static String calculateCondition(double syst, double dias) {
+        if (syst < 120 && dias < 80)
+            return "Normal";
+        else if (syst <= 129 && dias < 80)
+            return "Elevated";
+        else if (syst <= 139 || dias <= 89)
+            return "High Blood Pressure (Stage 1)";
+        else if (syst <= 179 || dias <= 120)
+            return "High Blood Pressure (Stage 2)";
+        else
+            return "Hypertensive Crisis";
     }
 }

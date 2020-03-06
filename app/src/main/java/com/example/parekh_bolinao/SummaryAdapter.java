@@ -1,5 +1,6 @@
 package com.example.parekh_bolinao;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ public class SummaryAdapter extends ArrayAdapter<Summary> {
         _context = context;
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final Activity activity = (Activity) _context;
@@ -35,15 +37,15 @@ public class SummaryAdapter extends ArrayAdapter<Summary> {
 
         // Lookup view for data population
         TextView field1 = convertView.findViewById(R.id.name_val);
-        field1.setText(row.getName());
+        field1.setText(toTitleCase(row.getName()));
 
         // Lookup view for data population
         TextView field2 = convertView.findViewById(R.id.sys_val);
-        field2.setText(String.format("%f", row.getSyst()));
+        field2.setText(String.format("%.2f", row.getSyst()));
 
         // Lookup view for data population
         TextView field3 = convertView.findViewById(R.id.dia_val);
-        field3.setText("" + row.getDia());
+        field3.setText(String.format("%.2f", row.getDia()));
 
         // Lookup view for data population
         TextView field4 = convertView.findViewById(R.id.cond_val);
@@ -51,6 +53,24 @@ public class SummaryAdapter extends ArrayAdapter<Summary> {
 
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    public static String toTitleCase(String input) {
+        StringBuilder titleCase = new StringBuilder(input.length());
+        boolean nextTitleCase = true;
+
+        for (char c : input.toCharArray()) {
+            if (Character.isSpaceChar(c)) {
+                nextTitleCase = true;
+            } else if (nextTitleCase) {
+                c = Character.toTitleCase(c);
+                nextTitleCase = false;
+            }
+
+            titleCase.append(c);
+        }
+
+        return titleCase.toString();
     }
 }
 

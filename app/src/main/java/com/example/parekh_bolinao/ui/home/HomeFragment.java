@@ -116,14 +116,11 @@ public class HomeFragment extends Fragment {
         };
         mDatabase.addValueEventListener(dataChangeListener);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Record record = recordList.get(position);
-                currentUserString = record.getName();
-                currUserID = record.getParent_id();
-                currUser.setText(currentUserString);
-            }
+        lv.setOnItemClickListener((parent, view, position, id) -> {
+            Record record = recordList.get(position);
+            currentUserString = record.getName();
+            currUserID = record.getParent_id();
+            currUser.setText(currentUserString);
         });
     }
 
