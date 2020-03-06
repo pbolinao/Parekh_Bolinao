@@ -24,4 +24,5 @@
     <string name="systolic_reading">Systolic Reading</string>
     <string name="diastolic_reading">Diastolic Reading</string>
     <string name="user_summaries">User Summaries</string>
+    <string name="edit_button">Edit button</string>
 </resources>

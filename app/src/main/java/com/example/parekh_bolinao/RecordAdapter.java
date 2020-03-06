@@ -43,21 +43,22 @@ public class RecordAdapter extends ArrayAdapter<Record> {
         int syst = record.getSystolic_reading();
         int dias = record.getDiastolic_reading();
 
+        View indicator = convertView.findViewById(R.id.colored_indicator);
         switch (healthCheck(syst, dias)) {
             case 1:
-                convertView.setBackgroundColor(this._context.getColor(R.color.normal));
+                indicator.setBackgroundColor(this._context.getColor(R.color.normal));
                 break;
             case 2:
-                convertView.setBackgroundColor(this._context.getColor(R.color.elevated));
+                indicator.setBackgroundColor(this._context.getColor(R.color.elevated));
                 break;
             case 3:
-                convertView.setBackgroundColor(this._context.getColor(R.color.hbp1));
+                indicator.setBackgroundColor(this._context.getColor(R.color.hbp1));
                 break;
             case 4:
-                convertView.setBackgroundColor(this._context.getColor(R.color.hbp2));
+                indicator.setBackgroundColor(this._context.getColor(R.color.hbp2));
                 break;
             case 5:
-                convertView.setBackgroundColor(this._context.getColor(R.color.hypertensive));
+                indicator.setBackgroundColor(this._context.getColor(R.color.hypertensive));
                 break;
             case 6:
                 break;
