@@ -3,4 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="normal">#00B050</color>
+    <color name="elevated">#E0E09E</color>
+    <color name="hbp1">#F1B9A9</color>
+    <color name="hbp2">#AE977D</color>
+    <color name="hypertensive">#FF0000</color>
 </resources>

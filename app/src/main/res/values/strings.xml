@@ -3,13 +3,21 @@
     <string name="title_home">Home</string>
     <string name="title_recent">Recent</string>
     <string name="title_summaries">Summaries</string>
+    <string name="currUser">Current User: </string>
+    <string name="nocurruser">No User Selected\nA new user will be created.</string>
     <string name="user_id">Name: </string>
     <string name="date"> </string>
-    <string name="systolic_label">Systolic Reading</string>
-    <string name="diastolic_label">Diastolic Reading</string>
-    <string name="check_button">Check</string>
+    <string name="systolic_label">Systolic Reading:</string>
+    <string name="diastolic_label">Diastolic Reading:</string>
+    <string name="addUser">Add New\nRecord</string>
+    <string name="setUserText">Click a user to set it as the current user</string>
+    <string name="clearUser">Clear\nCurrent User</string>
 
     <string name="name_hint">Name</string>
     <string name="reading_hint">mm Hg</string>
     <string name="name_label">Name</string>
+
+    <string name="cancelbtn">Cancel</string>
+    <string name="updatebtn">Update</string>
+    <string name="deletebtn">Delete</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.parekh_bolinao;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,14 +39,59 @@ public class RecordAdapter extends ArrayAdapter<Record> {
         TextView tvTime = convertView.findViewById(R.id.entry_datetime);
         TextView tvSystolic = convertView.findViewById(R.id.systolic_reading);
         TextView tvDiastolic = convertView.findViewById(R.id.diastolic_reading);
+        TextView tvUserID = convertView.findViewById(R.id.userid_data);
+
+        int syst = record.getSystolic_reading();
+        int dias = record.getDiastolic_reading();
+
+        switch (healthCheck(syst, dias)) {
+            case 1:
+                convertView.setBackgroundColor(this._context.getColor(R.color.normal));
+                break;
+            case 2:
+                convertView.setBackgroundColor(this._context.getColor(R.color.elevated));
+                break;
+            case 3:
+                convertView.setBackgroundColor(this._context.getColor(R.color.hbp1));
+                break;
+            case 4:
+                convertView.setBackgroundColor(this._context.getColor(R.color.hbp2));
+                break;
+            case 5:
+                convertView.setBackgroundColor(this._context.getColor(R.color.hypertensive));
+                break;
+            case 6:
+                break;
+        }
 
         tvName.setText(record.getName());
         String time = record.getYear() + ", " + record.getMonth()
                 + " " + record.getTime();
         tvTime.setText(time);
-        tvSystolic.setText(String.valueOf(record.getSystolic_reading()));
-        tvDiastolic.setText(String.valueOf(record.getDiastolic_reading()));
+        tvSystolic.setText(String.valueOf(syst));
+        tvDiastolic.setText(String.valueOf(dias));
+        tvUserID.setText(record.getParent_id());
         return convertView;
+    }
+
+    public int healthCheck(int syst, int dias) {
+        if (syst > 180 || dias > 120) {
+            return 5;
+        } else if(syst < 120 && dias < 80) {
+            // Normal
+            return 1;
+        } else if ((syst <= 129 && syst >= 120) && dias < 80) {
+            // Elevated
+            return 2;
+        } else if ((syst <= 139 && syst >= 130) || (dias <= 89 && dias >= 80)) {
+            // High blood pressure stage 1
+            return 3;
+        } else if ((syst <= 180 && syst >= 140) || (dias <= 120 && dias >= 90)) {
+            // High blood pressure stage 2
+            return 4;
+        } else {
+            return 6;
+        }
     }
 
 }
