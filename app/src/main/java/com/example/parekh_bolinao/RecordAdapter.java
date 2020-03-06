@@ -39,7 +39,6 @@ public class RecordAdapter extends ArrayAdapter<Record> {
         TextView tvTime = convertView.findViewById(R.id.entry_datetime);
         TextView tvSystolic = convertView.findViewById(R.id.systolic_reading);
         TextView tvDiastolic = convertView.findViewById(R.id.diastolic_reading);
-        TextView tvUserID = convertView.findViewById(R.id.userid_data);
 
         int syst = record.getSystolic_reading();
         int dias = record.getDiastolic_reading();
@@ -70,7 +69,6 @@ public class RecordAdapter extends ArrayAdapter<Record> {
         tvTime.setText(time);
         tvSystolic.setText(String.valueOf(syst));
         tvDiastolic.setText(String.valueOf(dias));
-        tvUserID.setText(record.getParent_id());
         return convertView;
     }
 
