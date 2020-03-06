@@ -13,6 +13,7 @@ public class Record {
     public int diastolic_reading;
     public int year;
     public int month;
+    int day;
     public String time;
     public String id;
 
@@ -28,6 +29,7 @@ public class Record {
         this.diastolic_reading = diastolic;
         this.year = calendar.get(Calendar.YEAR);
         this.month = calendar.get(Calendar.MONTH);
+        this.day = calendar.get(Calendar.DATE);
         String hour = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
         String min = String.valueOf(calendar.get(Calendar.MINUTE));
         String sec = String.valueOf(calendar.get(Calendar.SECOND));
@@ -47,12 +49,49 @@ public class Record {
         return this.year;
     }
     public int getMonth() {
-        return this.month;
+    return month;
     }
-    public String getTime() {
+
+    public String getMonthStr() {
+        String s = "";
+        switch (month) {
+            case 1:
+                s = "January";
+            case 2:
+                s = "February";
+            case 3:
+                s = "March";
+            case 4:
+                s = "April";
+            case 5:
+                s = "May";
+            case 6:
+                s = "June";
+            case 7:
+                s = "July";
+            case 8:
+                s = "August";
+            case 9:
+                s = "September";
+            case 10:
+                s = "October";
+            case 11:
+                s = "November";
+            case 12:
+                s = "December";
+            }
+        return s;
+    }
+    public String getTime () {
         return this.time;
     }
-    public void setTime(String time) { this.time = time; }
-    public String getID() { return this.id; }
-
+    public void setTime (String time){
+        this.time = time;
+    }
+    public String getID () {
+        return this.id;
+    }
+    public int getDay () {
+        return day;
+    }
 }

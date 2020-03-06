@@ -64,8 +64,7 @@ public class RecordAdapter extends ArrayAdapter<Record> {
         }
 
         tvName.setText(record.getName());
-        String time = record.getYear() + ", " + record.getMonth()
-                + " " + record.getTime();
+        String time = "Date: " + record.getMonthStr() + " " + record.getDay() + " " + record.getYear() + "\n" + "Time: " + record.getTime();
         tvTime.setText(time);
         tvSystolic.setText(String.valueOf(syst));
         tvDiastolic.setText(String.valueOf(dias));
