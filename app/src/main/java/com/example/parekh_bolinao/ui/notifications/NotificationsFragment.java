@@ -38,14 +38,14 @@ public class NotificationsFragment extends Fragment {
 
     private NotificationsViewModel notificationsViewModel;
     private View root;
+    ValueEventListener dataChangeListener;
+    DatabaseReference mDatabase;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel =
                 ViewModelProviders.of(this).get(NotificationsViewModel.class);
         root = inflater.inflate(R.layout.fragment_summaries, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
@@ -55,11 +55,11 @@ public class NotificationsFragment extends Fragment {
 
         Log.d("==========", "Fuck and shit");
 
-        DatabaseReference mDatabase = ((MainActivity)getActivity()).getmDatabase();
+        mDatabase = ((MainActivity)getActivity()).getmDatabase();
 
         ListView lv = root.findViewById(R.id.summary_list);
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        dataChangeListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<Summary> summaries = new ArrayList<>(0);
@@ -97,7 +97,8 @@ public class NotificationsFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        };
+        mDatabase.addValueEventListener(dataChangeListener);
     }
 
     private String getMonth(int mon) {
@@ -151,5 +152,10 @@ public class NotificationsFragment extends Fragment {
 
             }
         });
+    }
+
+    public void onStop() {
+        super.onStop();
+        mDatabase.removeEventListener(dataChangeListener);
     }
 }

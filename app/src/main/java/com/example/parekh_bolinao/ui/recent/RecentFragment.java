@@ -54,19 +54,16 @@ public class RecentFragment extends Fragment {
         recordList = new ArrayList<>();
         mDatabase = ((MainActivity)getActivity()).getmDatabase();
 
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Record record = recordList.get(position);
+        lv.setOnItemLongClickListener((parent, view, position, id) -> {
+            Record record = recordList.get(position);
 
-                showUpdateDialog(record.getName(),
-                        record.getSystolic_reading(),
-                        record.getDiastolic_reading(),
-                        record.getID(),
-                        record.getParent_id());
+            showUpdateDialog(record.getName(),
+                    record.getSystolic_reading(),
+                    record.getDiastolic_reading(),
+                    record.getID(),
+                    record.getParent_id());
 
-                return false;
-            }
+            return false;
         });
 
         return root;
@@ -108,21 +105,12 @@ public class RecentFragment extends Fragment {
         Task setValueTask1 = nameRef.setValue(name);
         Task setValueTask2 = systRef.setValue(syst);
         Task setValueTask3 = diasRef.setValue(dias);
-        setValueTask1.addOnSuccessListener(new OnSuccessListener() {
-            @Override
-            public void onSuccess(Object o) {
-                Toast.makeText(getActivity(),
-                        "Record Updated.",Toast.LENGTH_LONG).show();
-            }
-        });
-        setValueTask1.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getActivity(),
-                        "Something went wrong.\n" + e.toString(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+
+        setValueTask1.addOnSuccessListener(o -> Toast.makeText(getActivity(),
+                "Record Updated.",Toast.LENGTH_LONG).show());
+        setValueTask1.addOnFailureListener(e -> Toast.makeText(getActivity(),
+                "Something went wrong.\n" + e.toString(),
+                Toast.LENGTH_SHORT).show());
     }
 
     private void showUpdateDialog(String name, int syst, int dias, String id, String parentId) {

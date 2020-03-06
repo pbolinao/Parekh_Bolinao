@@ -20,4 +20,8 @@
     <string name="cancelbtn">Cancel</string>
     <string name="updatebtn">Update</string>
     <string name="deletebtn">Delete</string>
+    <string name="textview">TextView</string>
+    <string name="systolic_reading">Systolic Reading</string>
+    <string name="diastolic_reading">Diastolic Reading</string>
+    <string name="user_summaries">User Summaries</string>
 </resources>
