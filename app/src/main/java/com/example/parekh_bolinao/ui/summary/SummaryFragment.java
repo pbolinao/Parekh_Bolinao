@@ -1,5 +1,6 @@
 package com.example.parekh_bolinao.ui.summary;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +39,8 @@ public class SummaryFragment extends Fragment {
         summaryViewModel =
                 ViewModelProviders.of(this).get(SummaryViewModel.class);
         root = inflater.inflate(R.layout.fragment_summaries, container, false);
+        getActivity().setRequestedOrientation(
+                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         return root;
     }
 
