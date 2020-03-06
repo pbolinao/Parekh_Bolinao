@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.parekh_bolinao.ui.notifications.NotificationsFragment"
+        android:name="com.example.parekh_bolinao.ui.summary.SummaryFragment"
         android:label="@string/title_summaries"
         tools:layout="@layout/fragment_summaries" />
 </navigation>
