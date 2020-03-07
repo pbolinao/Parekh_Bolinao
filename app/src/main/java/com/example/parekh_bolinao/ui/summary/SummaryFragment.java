@@ -39,8 +39,7 @@ public class SummaryFragment extends Fragment {
         summaryViewModel =
                 ViewModelProviders.of(this).get(SummaryViewModel.class);
         root = inflater.inflate(R.layout.fragment_summaries, container, false);
-        getActivity().setRequestedOrientation(
-                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         return root;
     }
 
