@@ -18,7 +18,7 @@ import java.util.List;
 
 public class RecordAdapter extends ArrayAdapter<Record> {
 
-    Context _context;
+    private Context _context;
 //    private List<Record> recordList;
 
     public RecordAdapter(@NonNull Activity context, List<Record> recordList) {

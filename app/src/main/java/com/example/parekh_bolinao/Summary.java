@@ -5,12 +5,13 @@ public class Summary {
     public double syst;
     public double dia;
     public String avgCond;
+    int recordCount;
 
-    public Summary(String name, double syst, double dia) {
+    public Summary(String name, double syst, double dia, int recordCount) {
         this.name = name;
         this.syst = syst;
         this.dia = dia;
-
+        this.recordCount = recordCount;
         this.avgCond = calculateCondition(syst, dia);
     }
 
@@ -29,6 +30,14 @@ public class Summary {
     public String getAvgCond() {
         return avgCond;
     }
+
+    public int getRecordCount() { return recordCount; }
+
+    public void setRecordCount(int count) { this.recordCount = count; }
+
+    public void setSyst(double syst) { this.syst = syst; }
+
+    public void setDia(double dia) {this.dia = dia; }
 
     private static String calculateCondition(double syst, double dias) {
         if (syst < 120 && dias < 80)

@@ -2,11 +2,9 @@ package com.example.parekh_bolinao.ui.home;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -60,7 +58,7 @@ public class HomeFragment extends Fragment {
 
         View clearUserBtn = root.findViewById(R.id.clear_user);
         View addNewBtn = root.findViewById(R.id.add_new);
-        mDatabase = ((MainActivity)getActivity()).getmDatabase();
+        mDatabase = ((MainActivity)getActivity()).getDb();
 
         addNewBtn.setOnClickListener((v) -> {
             String id = mDatabase.push().getKey();
@@ -97,25 +95,6 @@ public class HomeFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
-        dataChangeListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                recordList.clear();
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    for(DataSnapshot recordSnapshot : ds.getChildren()) {
-                        Record record = recordSnapshot.getValue(Record.class);
-                        recordList.add(record);
-                        break;
-                    }
-                }
-                RecordUsersAdapter adapter = new RecordUsersAdapter(getActivity(), recordList);
-                lv.setAdapter(adapter);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        };
-        mDatabase.addValueEventListener(dataChangeListener);
-
         lv.setOnItemClickListener((parent, view, position, id) -> {
             Record record = recordList.get(position);
             currentUserString = record.getName();
@@ -126,7 +105,6 @@ public class HomeFragment extends Fragment {
 
     public void onStop() {
         super.onStop();
-        mDatabase.removeEventListener(dataChangeListener);
     }
 
     public void addToDatabase(DatabaseReference mDatabase, String user_name, String id, String parent_id) {

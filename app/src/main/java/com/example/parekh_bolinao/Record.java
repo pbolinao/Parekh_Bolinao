@@ -3,18 +3,19 @@ package com.example.parekh_bolinao;
 import com.google.firebase.database.IgnoreExtraProperties;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.stream.Stream;
 
 @IgnoreExtraProperties
 public class Record {
 
-    public String parent_id;
-    public String name;
+    private String parent_id;
+    private String name;
     public int systolic_reading;
     public int diastolic_reading;
-    public int year;
-    public int month;
-    int day;
-    public String time;
+    private int year;
+    private int month;
+    private int day;
+    private String time;
     public String id;
 
     public Record() {
@@ -48,9 +49,10 @@ public class Record {
     public int getYear() {
         return this.year;
     }
-    public int getMonth() {
-    return month;
-    }
+    public int getMonth() { return month; }
+    public void setName(String name) {this.name = name;}
+    public void setSystolic_reading(int systolic_reading) {this.systolic_reading = systolic_reading;}
+    public void setDiastolic_reading(int diastolic_reading) {this.diastolic_reading = diastolic_reading;}
 
     public String getMonthStr() {
         String s = "";
@@ -82,16 +84,14 @@ public class Record {
             }
         return s;
     }
-    public String getTime () {
-        return this.time;
-    }
-    public void setTime (String time){
-        this.time = time;
-    }
-    public String getID () {
-        return this.id;
-    }
-    public int getDay () {
-        return day;
+    public String getTime () { return this.time; }
+    public void setTime (String time){ this.time = time; }
+    public String getID () { return this.id; }
+    public int getDay () { return day; }
+
+    public Date getCalendar() {
+        int hour = Integer.parseInt(time.substring(0, time.indexOf(':')));
+        int min = Integer.parseInt(time.substring(time.indexOf(':')+1, time.lastIndexOf(':')));
+        return new Date(year, month, day, hour, min);
     }
 }
