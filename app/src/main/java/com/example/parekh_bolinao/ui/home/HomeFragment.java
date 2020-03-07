@@ -2,6 +2,7 @@ package com.example.parekh_bolinao.ui.home;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,9 @@ public class HomeFragment extends Fragment {
             assert id != null;
             if (currUserID == null) {
                 currentUserString = nameEdit.getText().toString();
+                if (TextUtils.isEmpty(currentUserString)) {
+                    nameEdit.setError("Name is required!");
+                }
                 currUserID = currentUserString.toLowerCase() + id;
             }
             addToDatabase(mDatabase, currentUserString, id, currUserID);
@@ -110,34 +114,49 @@ public class HomeFragment extends Fragment {
     public void addToDatabase(DatabaseReference mDatabase, String user_name, String id, String parent_id) {
         // Store in database, display condition
 
-        int systolicRead = Integer.valueOf(systEdit.getText().toString());
-        int diastolicRead = Integer.valueOf(diasEdit.getText().toString());
+        String systolicString = systEdit.getText().toString();
+        String diastolicString = diasEdit.getText().toString();
+        int systolicRead = -1;
+        int diastolicRead = -1;
+
+        if (TextUtils.isEmpty(systolicString)) {
+            systEdit.setError("A systolic reading is required.");
+        } else if (TextUtils.isEmpty(diastolicString)) {
+            diasEdit.setError("A diastolic reading is required");
+        } else {
+            systolicRead = Integer.valueOf(systolicString);
+            diastolicRead = Integer.valueOf(diastolicString);
+        }
 
         // Get an ID for the entry from firebase
-        Record record = new Record(user_name, systolicRead, diastolicRead, id, parent_id);
-        Task insert = mDatabase.child(parent_id).child(id).setValue(record);
+        if (systolicRead != -1 && diastolicRead != -1) {
+            Record record = new Record(user_name, systolicRead, diastolicRead, id, parent_id);
+            Task insert = mDatabase.child(parent_id).child(id).setValue(record);
 
-        insert.addOnSuccessListener((o) -> {
-            Toast.makeText(getActivity(),"Record added.",Toast.LENGTH_LONG).show();
-            nameEdit.setText("");
-            systEdit.setText("");
-            diasEdit.setText("");
-            currentUserString = record.getName();
-            currUserID = record.getParent_id();
-            currUser.setText(currentUserString);
-        });
+            insert.addOnSuccessListener((o) -> {
+                Toast.makeText(getActivity(),"Record added.",Toast.LENGTH_LONG).show();
+                nameEdit.setText("");
+                systEdit.setText("");
+                diasEdit.setText("");
+                currentUserString = record.getName();
+                currUserID = record.getParent_id();
+                currUser.setText(currentUserString);
+            });
 
-        insert.addOnFailureListener((o) -> Toast.makeText(getActivity(),
-                "Something went wrong! Please check your connection and try again later.",
-                Toast.LENGTH_LONG).show());
+            insert.addOnFailureListener((o) -> Toast.makeText(getActivity(),
+                    "Something went wrong! Please check your connection and try again later.",
+                    Toast.LENGTH_LONG).show());
 
-        if (checkHealth(systolicRead, diastolicRead)) {
-            String alert_message = "WARNING! Hypertensive Crisis. Consult your doctor IMMEDIATELY.";
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage(alert_message);
-            builder.setNegativeButton("Close", (dialog, id1) -> dialog.cancel());
-            AlertDialog alert = builder.create();
-            alert.show();
+            if (checkHealth(systolicRead, diastolicRead)) {
+                String alert_message = "WARNING! Hypertensive Crisis. Consult your doctor IMMEDIATELY.";
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(alert_message);
+                builder.setNegativeButton("Close", (dialog, id1) -> dialog.cancel());
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        } else {
+            Toast.makeText(getActivity(),"Please fill out all fields properly.",Toast.LENGTH_LONG).show();
         }
     }
 }
