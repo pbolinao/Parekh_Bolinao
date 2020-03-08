@@ -19,6 +19,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -75,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addToSummaries(Record record) {
+        Calendar calendar = Calendar.getInstance();
+        if (record.getMonth() != (int)calendar.get(Calendar.MONTH))
+            return;
         boolean found = false;
         String name = record.getName();
         double syst = record.getSystolic_reading();
