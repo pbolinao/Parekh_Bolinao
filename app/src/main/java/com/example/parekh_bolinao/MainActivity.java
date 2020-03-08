@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.parekh_bolinao.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,6 +14,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<Record> records;
     public ArrayList<Summary> summaries;
     public ArrayList<Record> usersList;
+    boolean firstStart = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
         // Get a reference of the database
         db = FirebaseDatabase.getInstance().getReference();
 
-        records = new ArrayList<>(0);
-        summaries = new ArrayList<>(0);
-        usersList = new ArrayList<>(0);
+        records = new ArrayList<>();
+        summaries = new ArrayList<>();
+        usersList = new ArrayList<>();
     }
 
     @Override
@@ -57,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                records = new ArrayList<>(0);
-                summaries = new ArrayList<>(0);
+                records = new ArrayList<>();
+                summaries = new ArrayList<>();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     boolean firstAdded = true;
                     for(DataSnapshot recordSnapshot : ds.getChildren()) {
@@ -77,6 +81,14 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Unable to add record!", Toast.LENGTH_LONG).show();
             }
         });
+        if (firstStart) {
+            Fragment frg = getSupportFragmentManager().findFragmentById(R.id.navigation_home);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.detach(frg);
+            ft.attach(frg);
+            ft.commit();
+            firstStart = false;
+        }
     }
 
     private void addToSummaries(Record record) {

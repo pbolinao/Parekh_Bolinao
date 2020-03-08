@@ -60,8 +60,4 @@ public class SummaryFragment extends Fragment {
     }
 
     public SummaryAdapter getAdapter() { return this.adapter; }
-
-    public void onStop() {
-        super.onStop();
-    }
 }

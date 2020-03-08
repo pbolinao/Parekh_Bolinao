@@ -20,7 +20,10 @@ import com.example.parekh_bolinao.R;
 import com.example.parekh_bolinao.Record;
 import com.example.parekh_bolinao.RecordUsersAdapter;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -38,6 +41,7 @@ public class HomeFragment extends Fragment {
     private String currentUserString;
     private String currUserID;
     private String noSelect;
+    RecordUsersAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -109,7 +113,8 @@ public class HomeFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
-        RecordUsersAdapter adapter = new RecordUsersAdapter(getActivity(), recordList);
+
+        adapter = new RecordUsersAdapter(getActivity(), recordList);
         lv.setAdapter(adapter);
 
         lv.setOnItemClickListener((parent, view, position, id) -> {
@@ -118,10 +123,6 @@ public class HomeFragment extends Fragment {
             currUserID = record.getParent_id();
             currUser.setText(currentUserString);
         });
-    }
-
-    public void onStop() {
-        super.onStop();
     }
 
     public void addToDatabase(DatabaseReference mDatabase, String user_name, String id, String parent_id) {
@@ -172,4 +173,5 @@ public class HomeFragment extends Fragment {
             Toast.makeText(getActivity(),"Please fill out all fields properly.",Toast.LENGTH_LONG).show();
         }
     }
+
 }

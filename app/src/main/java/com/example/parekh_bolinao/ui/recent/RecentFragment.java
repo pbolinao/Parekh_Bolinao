@@ -88,8 +88,6 @@ public class RecentFragment extends Fragment {
         lv.setAdapter(adapter);
     }
 
-    public void onStop() { super.onStop(); }
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateRecord(String name, int syst, int dias, String id, String parentId, Record r) {
         DatabaseReference nameRef = mDatabase.child(parentId).child(id).child("name");
