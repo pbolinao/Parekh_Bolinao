@@ -43,6 +43,7 @@ public class HomeFragment extends Fragment {
     String currUserID;
     String noSelect;
     private RecordUsersAdapter adapter;
+    boolean firstLoad = true;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -117,6 +118,7 @@ public class HomeFragment extends Fragment {
 
     public void onStop() {
         super.onStop();
+        firstLoad = false;
     }
 
     private void forceFill() {
@@ -160,6 +162,9 @@ public class HomeFragment extends Fragment {
             currentUserString = record.getName();
             currUserID = record.getParent_id();
             currUser.setText(currentUserString);
+            if (firstLoad) {
+                forceFill();
+            }
         });
 
         insert.addOnFailureListener((o) -> Toast.makeText(getActivity(),
