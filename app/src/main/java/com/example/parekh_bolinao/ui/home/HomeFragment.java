@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
-        recordList = ((MainActivity)getActivity()).records;
+//        recordList = ((MainActivity)getActivity()).records;
         if (recordList.size() == 0) {
             Log.e("Action", "force filling array.");
             forceFill();
