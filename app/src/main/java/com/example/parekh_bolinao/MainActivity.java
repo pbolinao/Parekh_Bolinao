@@ -19,6 +19,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Calendar calendar = Calendar.getInstance();
 
         db.addValueEventListener(new ValueEventListener() {
             @Override
@@ -61,10 +63,33 @@ public class MainActivity extends AppCompatActivity {
                 summaries = new ArrayList<>();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     boolean firstAdded = true;
+                    boolean firstSummary = true;
+                    Summary s = null;
                     for(DataSnapshot recordSnapshot : ds.getChildren()) {
                         Record record = recordSnapshot.getValue(Record.class);
                         records.add(record);
-                        addToSummaries(record);
+
+                        if (firstSummary && record.getMonth() == calendar.get(Calendar.MONTH)) {
+                            s = new Summary(record.getName(),
+                                    record.getSystolic_reading(),
+                                    record.getDiastolic_reading(),
+                                    1,
+                                    record.getParent_id());
+                            summaries.add(s);
+                            firstSummary = false;
+                        } else if (record.getMonth() == calendar.get(Calendar.MONTH)) {
+                            if (s != null) {
+                                int count = s.getRecordCount();
+                                double syst_new = (s.getSyst() * count + record.getSystolic_reading()) / (count + 1);
+                                double dia_new = (s.getDia() * count + record.getDiastolic_reading()) / (count + 1);
+
+                                s.setRecordCount(++count);
+                                s.setDia(dia_new);
+                                s.setSyst(syst_new);
+                            }
+                        }
+
+//                        addToSummaries(record);
                         if (firstAdded) {
                             usersList.add(record);
                             firstAdded = false;
@@ -79,31 +104,31 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void addToSummaries(Record record) {
-        boolean found = false;
-        String name = record.getName();
-        double syst = record.getSystolic_reading();
-        double dia = record.getDiastolic_reading();
-
-        for(Summary s: summaries) {
-            if (s.getName().equalsIgnoreCase(name)) {
-                found = true;
-                int count = s.getRecordCount();
-                syst = s.getSyst();
-                double syst_new = (syst * count + record.getSystolic_reading()) / (count + 1);
-
-                dia = s.getDia();
-                double dia_new = (dia * count + record.getDiastolic_reading()) / (count + 1);
-
-                s.setRecordCount(++count);
-                s.setDia(dia_new);
-                s.setSyst(syst_new);
-            }
-        }
-        if (!found) {
-            summaries.add(new Summary(name, syst, dia, 1));
-        }
-    }
+//    private void addToSummaries(Record record) {
+//        boolean found = false;
+//        String name = record.getName();
+//        double syst = record.getSystolic_reading();
+//        double dia = record.getDiastolic_reading();
+//
+//        for(Summary s: summaries) {
+//            if (s.getName().equalsIgnoreCase(name)) {
+//                found = true;
+//                int count = s.getRecordCount();
+//                syst = s.getSyst();
+//                double syst_new = (syst * count + record.getSystolic_reading()) / (count + 1);
+//
+//                dia = s.getDia();
+//                double dia_new = (dia * count + record.getDiastolic_reading()) / (count + 1);
+//
+//                s.setRecordCount(++count);
+//                s.setDia(dia_new);
+//                s.setSyst(syst_new);
+//            }
+//        }
+//        if (!found) {
+//            summaries.add(new Summary(name, syst, dia, 1));
+//        }
+//    }
 
     public DatabaseReference getDb() {
         return db;

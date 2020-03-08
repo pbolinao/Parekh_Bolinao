@@ -7,14 +7,16 @@ public class Summary implements Serializable {
     public double syst;
     public double dia;
     public String avgCond;
+    public String parent_id;
     int recordCount;
 
-    public Summary(String name, double syst, double dia, int recordCount) {
+    public Summary(String name, double syst, double dia, int recordCount, String parent_id) {
         this.name = name;
         this.syst = syst;
         this.dia = dia;
         this.recordCount = recordCount;
         this.avgCond = calculateCondition(syst, dia);
+        this.parent_id = parent_id;
     }
 
     public String getName() {
@@ -34,6 +36,8 @@ public class Summary implements Serializable {
     }
 
     public int getRecordCount() { return recordCount; }
+
+    public String getParent_id() { return parent_id; }
 
     public void setRecordCount(int count) { this.recordCount = count; }
 

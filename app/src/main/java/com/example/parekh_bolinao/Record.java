@@ -61,40 +61,40 @@ public class Record implements Serializable {
     public String getMonthStr() {
         String s = "";
         switch (month) {
-            case 1:
+            case 0:
                 s = "January";
                 break;
-            case 2:
+            case 1:
                 s = "February";
                 break;
-            case 3:
+            case 2:
                 s = "March";
                 break;
-            case 4:
+            case 3:
                 s = "April";
                 break;
-            case 5:
+            case 4:
                 s = "May";
                 break;
-            case 6:
+            case 5:
                 s = "June";
                 break;
-            case 7:
+            case 6:
                 s = "July";
                 break;
-            case 8:
+            case 7:
                 s = "August";
                 break;
-            case 9:
+            case 8:
                 s = "September";
                 break;
-            case 10:
+            case 9:
                 s = "October";
                 break;
-            case 11:
+            case 10:
                 s = "November";
                 break;
-            case 12:
+            case 11:
                 s = "December";
                 break;
             }
