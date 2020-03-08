@@ -44,6 +44,7 @@ public class HomeFragment extends Fragment {
     private String noSelect;
     private RecordUsersAdapter adapter;
     ValueEventListener dbEvent;
+    boolean initialStart = true;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -80,10 +81,14 @@ public class HomeFragment extends Fragment {
                 currentUserString = nameEdit.getText().toString();
                 if (TextUtils.isEmpty(currentUserString)) {
                     nameEdit.setError("Name is required!");
+                } else {
+                    currUserID = currentUserString.toLowerCase() + id;
+
+                    addToDatabase(mDatabase, currentUserString, id, currUserID);
                 }
-                currUserID = currentUserString.toLowerCase() + id;
+            } else {
+                addToDatabase(mDatabase, currentUserString, id, currUserID);
             }
-            addToDatabase(mDatabase, currentUserString, id, currUserID);
         });
 
         clearUserBtn.setOnClickListener((v) -> {
@@ -119,7 +124,12 @@ public class HomeFragment extends Fragment {
         if (recordList.size() == 0) {
             Log.e("Action", "force filling array.");
             forceFill();
+            initialStart = false;
         } else {
+            if (dbEvent != null) {
+                mDatabase.removeEventListener(dbEvent);
+                dbEvent = null;
+            }
             String ss = String.valueOf(recordList.size());
             Log.e("Array Size", ss);
             adapter = new RecordUsersAdapter(getActivity(), recordList);
@@ -136,7 +146,6 @@ public class HomeFragment extends Fragment {
 
     public void onStop() {
         super.onStop();
-
         if (dbEvent != null) {
             mDatabase.removeEventListener(dbEvent);
             dbEvent = null;
