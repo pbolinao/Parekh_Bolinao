@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,6 +25,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
@@ -45,6 +48,11 @@ public class SummaryFragment extends Fragment {
         super.onStart();
 
         ListView lv = root.findViewById(R.id.summary_list);
+
+        Calendar c = Calendar.getInstance();
+        TextView field0 = root.findViewById(R.id.summary_title);
+        String month = c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+        field0.setText(String.format("Month-to-date average readings for %s, %d", month, c.get(Calendar.YEAR)));
 
         ArrayList<Summary> summaries = ((MainActivity)getActivity()).summaries;
         adapter = new SummaryAdapter(getActivity(), summaries);

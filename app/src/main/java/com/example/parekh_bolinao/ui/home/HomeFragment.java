@@ -32,7 +32,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private View root;
     ListView lv;
-    List<Record> recordList;
+    ArrayList<Record> recordList;
     DatabaseReference mDatabase;
     ValueEventListener dataChangeListener;
     EditText nameEdit;
@@ -98,11 +98,11 @@ public class HomeFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
+        recordList = ((MainActivity)getActivity()).records;
         if (recordList.size() == 0) {
             Log.e("Action", "force filling array.");
             forceFill();
         } else {
-            recordList = ((MainActivity)getActivity()).records;
             adapter = new RecordUsersAdapter(getActivity(), recordList);
             lv.setAdapter(adapter);
         }
