@@ -54,8 +54,6 @@ public class RecentFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_recent, container, false);
         lv = root.findViewById(R.id.recent_entries_list);
 
-        Log.e("FUCK", "CCCCCCCCCCCC");
-
         mDatabase = ((MainActivity)getActivity()).getDb();
         if (savedInstanceState != null) {
             recordList = (ArrayList<Record>) savedInstanceState.getSerializable("records");
@@ -85,9 +83,6 @@ public class RecentFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onStart() {
         super.onStart();
-        Log.e("DID IT WORK?", "RECORDS SHOWN");
-//        String ss = recordList.get(0).getName();
-//        Log.e("RECORD 0", ss);
         recordList.sort((r1, r2) -> r2.getCalendar().compareTo(r1.getCalendar()));
         adapter = new RecordAdapter(getActivity(), recordList);
         lv.setAdapter(adapter);
