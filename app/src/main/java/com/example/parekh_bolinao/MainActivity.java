@@ -81,14 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Unable to add record!", Toast.LENGTH_LONG).show();
             }
         });
-        if (firstStart) {
-            Fragment frg = getSupportFragmentManager().findFragmentById(R.id.navigation_home);
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.detach(frg);
-            ft.attach(frg);
-            ft.commit();
-            firstStart = false;
-        }
     }
 
     private void addToSummaries(Record record) {
