@@ -2,6 +2,7 @@ package com.example.parekh_bolinao.ui.home;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class HomeFragment extends Fragment {
     String currentUserString;
     String currUserID;
     String noSelect;
+    private RecordUsersAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class HomeFragment extends Fragment {
             this.currentUserString = noSelect;
             currUserID = null;
             currUser.setText(currentUserString);
+            nameEdit.setText("");
         });
         currUserID = null;
         recordList = new ArrayList<>();
@@ -95,16 +98,48 @@ public class HomeFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
+        if (recordList.size() == 0) {
+            Log.e("Action", "force filling array.");
+            forceFill();
+        } else {
+            recordList = ((MainActivity)getActivity()).records;
+            adapter = new RecordUsersAdapter(getActivity(), recordList);
+            lv.setAdapter(adapter);
+        }
         lv.setOnItemClickListener((parent, view, position, id) -> {
             Record record = recordList.get(position);
             currentUserString = record.getName();
             currUserID = record.getParent_id();
             currUser.setText(currentUserString);
+            nameEdit.setText(currentUserString);
         });
     }
 
     public void onStop() {
         super.onStop();
+    }
+
+    private void forceFill() {
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                recordList = new ArrayList<>();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    for(DataSnapshot recordSnapshot : ds.getChildren()) {
+                        Record record = recordSnapshot.getValue(Record.class);
+                        recordList.add(record);
+                        break;
+                    }
+                }
+                RecordUsersAdapter adapter = new RecordUsersAdapter(getActivity(), recordList);
+                lv.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), "Unable to add record!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void addToDatabase(DatabaseReference mDatabase, String user_name, String id, String parent_id) {
