@@ -149,6 +149,7 @@ public class HomeFragment extends Fragment {
         if (dbEvent != null) {
             mDatabase.removeEventListener(dbEvent);
             dbEvent = null;
+            Log.e("event listener", "removed");
         }
     }
 
