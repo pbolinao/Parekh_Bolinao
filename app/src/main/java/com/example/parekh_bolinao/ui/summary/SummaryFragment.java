@@ -29,6 +29,7 @@ import static android.content.ContentValues.TAG;
 
 public class SummaryFragment extends Fragment {
     private View root;
+    ArrayList<Summary> summaries;
     SummaryAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -36,7 +37,17 @@ public class SummaryFragment extends Fragment {
         SummaryViewModel summaryViewModel = ViewModelProviders.of(this).get(SummaryViewModel.class);
         root = inflater.inflate(R.layout.fragment_summaries, container, false);
 
+        if (savedInstanceState != null) {
+            summaries = (ArrayList<Summary>) savedInstanceState.getSerializable("summaries");
+        } else {
+            summaries = ((MainActivity)getActivity()).summaries;
+        }
+
         return root;
+    }
+
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable("summaries", summaries);
     }
 
     @Override
@@ -44,8 +55,6 @@ public class SummaryFragment extends Fragment {
         super.onStart();
 
         ListView lv = root.findViewById(R.id.summary_list);
-
-        ArrayList<Summary> summaries = ((MainActivity)getActivity()).summaries;
         adapter = new SummaryAdapter(getActivity(), summaries);
         lv.setAdapter(adapter);
     }

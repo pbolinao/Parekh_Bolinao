@@ -41,7 +41,7 @@ public class RecentFragment extends Fragment {
     private Activity main;
     private View root;
     ListView lv;
-    List<Record> recordList;
+    ArrayList<Record> recordList;
     DatabaseReference mDatabase;
     ValueEventListener dataChangeListener;
     RecordAdapter adapter;
@@ -54,7 +54,14 @@ public class RecentFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_recent, container, false);
         lv = root.findViewById(R.id.recent_entries_list);
 
-        recordList = ((MainActivity)getActivity()).records;
+        Log.e("FUCK", "CCCCCCCCCCCC");
+
+        mDatabase = ((MainActivity)getActivity()).getDb();
+        if (savedInstanceState != null) {
+            recordList = (ArrayList<Record>) savedInstanceState.getSerializable("records");
+        } else {
+            recordList = ((MainActivity)getActivity()).records;
+        }
 
         lv.setOnItemLongClickListener((parent, view, position, id) -> {
             Record record = recordList.get(position);
@@ -71,21 +78,25 @@ public class RecentFragment extends Fragment {
         return root;
     }
 
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable("records", recordList);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onStart() {
         super.onStart();
+        Log.e("DID IT WORK?", "RECORDS SHOWN");
+//        String ss = recordList.get(0).getName();
+//        Log.e("RECORD 0", ss);
         recordList.sort((r1, r2) -> r2.getCalendar().compareTo(r1.getCalendar()));
         adapter = new RecordAdapter(getActivity(), recordList);
         lv.setAdapter(adapter);
     }
 
-    public void onStop() {
-        super.onStop();
-    }
+    public void onStop() { super.onStop(); }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateRecord(String name, int syst, int dias, String id, String parentId, Record r) {
-        mDatabase = ((MainActivity)getActivity()).getDb();
         DatabaseReference nameRef = mDatabase.child(parentId).child(id).child("name");
         DatabaseReference systRef = mDatabase.child(parentId).child(id).child("systolic_reading");
         DatabaseReference diasRef = mDatabase.child(parentId).child(id).child("diastolic_reading");

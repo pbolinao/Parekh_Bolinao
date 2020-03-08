@@ -1,6 +1,8 @@
 package com.example.parekh_bolinao;
 
-public class Summary {
+import java.io.Serializable;
+
+public class Summary implements Serializable {
     public String name;
     public double syst;
     public double dia;

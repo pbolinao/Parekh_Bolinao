@@ -70,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Unable to add record!", Toast.LENGTH_LONG).show();
             }
         });
-
-
     }
 
     private void addToSummaries(Record record) {
