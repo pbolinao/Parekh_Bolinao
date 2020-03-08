@@ -40,7 +40,7 @@ public class SummaryFragment extends Fragment {
         if (savedInstanceState != null) {
             summaries = (ArrayList<Summary>) savedInstanceState.getSerializable("summaries");
         } else {
-            summaries = ((MainActivity)getActivity()).summaries;
+            summaries = ((MainActivity)getActivity()).getSummaries();
         }
 
         return root;

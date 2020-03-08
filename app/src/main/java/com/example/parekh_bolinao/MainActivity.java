@@ -101,4 +101,12 @@ public class MainActivity extends AppCompatActivity {
     public DatabaseReference getDb() {
         return db;
     }
+
+    public ArrayList<Record> getRecords() {
+        return records;
+    }
+
+    public ArrayList<Summary> getSummaries() {
+        return summaries;
+    }
 }

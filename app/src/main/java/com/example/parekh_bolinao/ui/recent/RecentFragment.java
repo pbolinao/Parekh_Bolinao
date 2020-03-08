@@ -58,7 +58,7 @@ public class RecentFragment extends Fragment {
         if (savedInstanceState != null) {
             recordList = (ArrayList<Record>) savedInstanceState.getSerializable("records");
         } else {
-            recordList = ((MainActivity)getActivity()).records;
+            recordList = ((MainActivity)getActivity()).getRecords();
         }
 
         lv.setOnItemLongClickListener((parent, view, position, id) -> {

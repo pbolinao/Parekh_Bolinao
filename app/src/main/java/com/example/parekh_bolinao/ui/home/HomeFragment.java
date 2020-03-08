@@ -3,6 +3,7 @@ package com.example.parekh_bolinao.ui.home;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,34 +20,30 @@ import com.example.parekh_bolinao.R;
 import com.example.parekh_bolinao.Record;
 import com.example.parekh_bolinao.RecordUsersAdapter;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private View root;
-    ListView lv;
-    List<Record> recordList;
-    DatabaseReference mDatabase;
-    ValueEventListener dataChangeListener;
-    EditText nameEdit;
-    EditText systEdit;
-    EditText diasEdit;
-    TextView currUser;
-    String currentUserString;
-    String currUserID;
-    String noSelect;
+    private ListView lv;
+    private ArrayList<Record> recordList;
+    private DatabaseReference mDatabase;
+    private EditText nameEdit;
+    private EditText systEdit;
+    private EditText diasEdit;
+    private TextView currUser;
+    private String currentUserString;
+    private String currUserID;
+    private String noSelect;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         root = inflater.inflate(R.layout.fragment_home, container, false);
+
         lv = root.findViewById(R.id.existing_users);
         nameEdit = root.findViewById(R.id.name_edit);
         systEdit = root.findViewById(R.id.systolic_edit);
@@ -54,8 +51,17 @@ public class HomeFragment extends Fragment {
         currUser = root.findViewById(R.id.current_user_text);
 
         noSelect = "No User Selected.";
-        currentUserString = noSelect;
-        currUser.setText(currentUserString);
+
+        if (savedInstanceState != null) {
+            recordList = (ArrayList<Record>) savedInstanceState.getSerializable("records");
+            currentUserString = savedInstanceState.getString("userName");
+            currUserID = savedInstanceState.getString("userID");
+            currUser.setText(currentUserString);
+        } else {
+            recordList = ((MainActivity)getActivity()).getRecords();
+            currentUserString = noSelect;
+            currUser.setText(currentUserString);
+        }
 
         View clearUserBtn = root.findViewById(R.id.clear_user);
         View addNewBtn = root.findViewById(R.id.add_new);
@@ -79,9 +85,13 @@ public class HomeFragment extends Fragment {
             currUserID = null;
             currUser.setText(currentUserString);
         });
-        currUserID = null;
-        recordList = new ArrayList<>();
         return root;
+    }
+
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable("records", recordList);
+        savedInstanceState.putString("userName", currentUserString);
+        savedInstanceState.putString("userID", currUserID);
     }
 
     /**
@@ -99,6 +109,9 @@ public class HomeFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
+        RecordUsersAdapter adapter = new RecordUsersAdapter(getActivity(), recordList);
+        lv.setAdapter(adapter);
+
         lv.setOnItemClickListener((parent, view, position, id) -> {
             Record record = recordList.get(position);
             currentUserString = record.getName();
