@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment {
         currUser = root.findViewById(R.id.current_user_text);
 
         noSelect = "No User Selected.";
+        mDatabase = ((MainActivity)getActivity()).getDb();
 
         if (savedInstanceState != null) {
             recordList = (ArrayList<Record>) savedInstanceState.getSerializable("records");
@@ -58,14 +59,13 @@ public class HomeFragment extends Fragment {
             currUserID = savedInstanceState.getString("userID");
             currUser.setText(currentUserString);
         } else {
-            recordList = ((MainActivity)getActivity()).getRecords();
+            recordList = ((MainActivity)getActivity()).getUsersList();
             currentUserString = noSelect;
             currUser.setText(currentUserString);
         }
 
         View clearUserBtn = root.findViewById(R.id.clear_user);
         View addNewBtn = root.findViewById(R.id.add_new);
-        mDatabase = ((MainActivity)getActivity()).getDb();
 
         addNewBtn.setOnClickListener((v) -> {
             String id = mDatabase.push().getKey();

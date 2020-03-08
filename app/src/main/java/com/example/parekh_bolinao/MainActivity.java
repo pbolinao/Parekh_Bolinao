@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference db;
     public ArrayList<Record> records;
     public ArrayList<Summary> summaries;
+    public ArrayList<Record> usersList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         records = new ArrayList<>(0);
         summaries = new ArrayList<>(0);
+        usersList = new ArrayList<>(0);
     }
 
     @Override
@@ -58,10 +60,15 @@ public class MainActivity extends AppCompatActivity {
                 records = new ArrayList<>(0);
                 summaries = new ArrayList<>(0);
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    boolean firstAdded = true;
                     for(DataSnapshot recordSnapshot : ds.getChildren()) {
                         Record record = recordSnapshot.getValue(Record.class);
                         records.add(record);
                         addToSummaries(record);
+                        if (firstAdded) {
+                            usersList.add(record);
+                            firstAdded = false;
+                        }
                     }
                 }
             }
@@ -104,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
 
     public ArrayList<Record> getRecords() {
         return records;
+    }
+
+    public ArrayList<Record> getUsersList() {
+        return usersList;
     }
 
     public ArrayList<Summary> getSummaries() {
